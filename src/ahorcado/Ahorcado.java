@@ -19,6 +19,7 @@ public class Ahorcado {
     public static void main(String[] args) {
         String dir= "192.168.0.7";
         int puerto= 1234;
+        
         try {
             Socket cl= new Socket(dir, puerto);
             System.out.println("Conexión establecida con: " + dir + ":" + puerto);
@@ -36,6 +37,8 @@ public class Ahorcado {
             conexion_escritura.flush();
             
             String palabra= (String) conexion_lectura.readLine();
+            
+            long tiempo_inicio= System.currentTimeMillis();
             System.out.println("Palabra a encontrar:");
             colocarPalabra(palabra);
             
@@ -57,10 +60,16 @@ public class Ahorcado {
                     break;
                 }
             }while(!palabra_encontrada);
+            long tiempo_final= System.currentTimeMillis();
+            
+            tiempo_inicio= tiempo_inicio/1000;
+            tiempo_final= tiempo_final/1000;
+            long tiempo_total= tiempo_inicio - tiempo_final; //segundos
             
             if(palabra_encontrada) {
                 System.out.println("Ganaste.");
             }
+            System.out.println("Tiempo (segundos): " + tiempo_total);
             
             conexion_lectura.close();
             conexion_escritura.close();
